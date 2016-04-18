@@ -139,6 +139,7 @@ const ReactDataGrid = React.createClass({
   },
 
   onPressEnter(e: SyntheticKeyboardEvent) {
+    this.moveSelectedCell(e, 1, 0);
     this.setActive(e.key);
   },
 

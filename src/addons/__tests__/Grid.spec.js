@@ -363,7 +363,7 @@ describe('Grid', function() {
         });
 
         it('should set grid state active', function() {
-          expect(this.component.state.selected).toEqual({ idx: 1, rowIdx: 1, active: true, initialKeyCode: 'Enter' });
+          expect(this.component.state.selected).toEqual({ idx: 1, rowIdx: 2, active: true, initialKeyCode: 'Enter' });
         });
       });
 
