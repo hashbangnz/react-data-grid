@@ -162,6 +162,7 @@ const ReactDataGrid = React.createClass({
 
   onPressKeyWithCtrl(e: SyntheticKeyboardEvent) {
     let keys = {
+      KeyCode_b: 66,
       KeyCode_c: 99,
       KeyCode_C: 67,
       KeyCode_V: 86,
@@ -175,6 +176,9 @@ const ReactDataGrid = React.createClass({
         this.handleCopy({ value: value });
       } else if (e.keyCode === keys.KeyCode_v || e.keyCode === keys.KeyCode_V) {
         this.handlePaste();
+      } else if (e.keyCode == keys.KeyCode_b) {
+        var _value = this.getSelectedValue();
+        this.handleDuplicate(e, _value);
       }
     }
   },
@@ -334,6 +338,34 @@ const ReactDataGrid = React.createClass({
     let selected = this.state.selected;
     let copied = {idx: selected.idx, rowIdx: selected.rowIdx};
     this.setState({textToCopy: textToCopy, copied: copied});
+  },
+
+  handleDuplicate(e, value) {
+    if (!this.copyPasteEnabled()) {
+      return;
+    }
+
+    var textToCopy = value;
+    var selected = this.state.selected;
+    var cellKey = this.getColumn(this.state.selected.idx).key;
+    var toRow = selected.rowIdx + 1;
+
+    if (this.props.onCellCopyPaste) {
+      this.props.onCellCopyPaste({ cellKey: cellKey, rowIdx: toRow, value: textToCopy, fromRow: selected.rowIdx, toRow: toRow });
+    }
+
+    if (this.props.onGridRowsUpdated) {
+      var updated = _defineProperty({}, cellKey, textToCopy);
+
+      this.props.onGridRowsUpdated({
+        cellKey: cellKey,
+        fromRow: toRow,
+        toRow: toRow,
+        updated: updated,
+        action: 'copyPaste' });
+    }
+
+    this.moveSelectedCell(e, 1, 0);
   },
 
   handleSort: function(columnKey: string, direction: SortType) {

@@ -334,6 +334,29 @@ describe('Grid', function() {
         });
       });
 
+      describe('duplicate a cell value', function() {
+        beforeEach(function() {
+          const bCharacterKeyCode = 66;
+          spyOn(this.testProps, 'onCellCopyPaste');
+          this.component.setProps({ onCellCopyPaste: this.testProps.onCellCopyPaste });
+          this.component.setState({
+            selected: { idx: 1, rowIdx: 1 }
+          });
+          this.simulateGridKeyDown(bCharacterKeyCode, true);
+        });
+
+        it('should call onCellCopyPaste of component with correct params', function() {
+          expect(this.component.props.onCellCopyPaste).toHaveBeenCalled();
+          expect(this.component.props.onCellCopyPaste.mostRecentCall.args[0]).toEqual({
+            cellKey: 'title',
+            rowIdx: 2,
+            value: 'Title 1',
+            fromRow: 1,
+            toRow: 2
+          });
+        });
+      });
+
       describe('cell commit cancel', function() {
         beforeEach(function() {
           this.component.setState({ selected: { idx: 1, rowIdx: 1, active: true } });
