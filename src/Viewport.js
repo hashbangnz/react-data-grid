@@ -14,7 +14,7 @@ const Viewport = React.createClass({
     rowGetter: PropTypes.oneOfType([PropTypes.array, PropTypes.func]).isRequired,
     selectedRows: PropTypes.array,
     expandedRows: PropTypes.array,
-    rowRenderer: PropTypes.func,
+    rowRenderer: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
     rowsCount: PropTypes.number.isRequired,
     rowHeight: PropTypes.number.isRequired,
     onRows: PropTypes.func,
