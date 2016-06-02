@@ -149,7 +149,8 @@ const ReactDataGrid = React.createClass({
 
   onPressEscape(e: SyntheticKeyboardEvent) {
     this.setInactive(e.key);
-  },
+    this.setState({ copied: null });
+},
 
   onPressBackspace(e: SyntheticKeyboardEvent) {
     this.setActive(e.key);
@@ -329,8 +330,6 @@ const ReactDataGrid = React.createClass({
         updated: updated,
         action: 'copyPaste'});
     }
-
-    this.setState({copied: null});
   },
 
   handleCopy(args: {value: string}) {
